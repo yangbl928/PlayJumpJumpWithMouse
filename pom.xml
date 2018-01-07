@@ -40,7 +40,7 @@
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.company.playJumpJumpWithMouse.BackgroundImage4Panel</mainClass>
+									<mainClass>com.ybl.jump.Main</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

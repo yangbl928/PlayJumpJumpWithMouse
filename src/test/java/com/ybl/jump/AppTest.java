@@ -1,4 +1,4 @@
-package com.company.playJumpJumpWithMouse;
+package com.ybl.jump;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

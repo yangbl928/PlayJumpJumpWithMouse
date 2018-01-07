@@ -37,7 +37,7 @@ java -jar playJumpJumpWithMouse.jar -a "C:\Users\Home\Desktop\platform-tools\adb
 -m 1: manual-mode , 2: semi-mode(default) , 3: auto-mode 
 ```
 ### 说明
-* 手动模式(manual-mode):弹出的窗口中先点击小人底部适当位置，然后再点想要跳的箱子的中心位置即可完成.
+* 手动模式(manual-java):弹出的窗口中先点击小人底部适当位置，然后再点想要跳的箱子的中心位置即可完成.
 * 半自动模式(semi-mode):只需要点击一次鼠标,即只需要点击终点的中心点就可以了.(默认模式)
 * 全自动模式(auto-mode):也就是挂机模式,不需要人工操作,启动后既可以自动识别算法自动帮你玩跳一跳.
 
@@ -59,3 +59,11 @@ java -jar playJumpJumpWithMouse.jar -a "C:\Users\Home\Desktop\platform-tools\adb
 * [@kokutoukiritsugu](https://github.com/kokutoukiritsugu)的批处理脚本
 * [@lrz0](https://github.com/lrz0)的修改建议
 * [@bambootang](https://github.com/bambootang)的自动/半自动跳跃代码
+
+
+// 截图
+db shell screencap -p /sdcard/screen.png
+// 拷贝到本地
+adb pull /sdcard/screen.png
+// 跳跃（只看时间）
+adb shell input swipe 0 0 0 0 750
