@@ -92,10 +92,6 @@ public class Main {
             @Override
             public void run() {
                 double resizedDistancePressTimeRatio = 765D / 453D;
-                //// 初始值 (前一个跳转开始点)
-                //int lastStartX = -1;
-                //// 上一次耗时
-                //double lastCostTime = -1D;
 
                 while (true) {
                     try {
@@ -103,25 +99,18 @@ public class Main {
                         BufferedImage bufferedImage = ImageIO.read(new File(screenshotPath));
 
                         // 计算跳动X坐标
-                        int firstPointX = CenterFinder.findStartCenter(bufferedImage);
-                        int secondPointX = CenterFinder.findEndCenter(bufferedImage, firstPointX);
+                        int firstPointX = PointFinder.findJumpStartPoint(bufferedImage);
+                        int secondPointX = PointFinder.findJumpEndPoint(bufferedImage, firstPointX);
                         int distance = Math.abs(secondPointX - firstPointX);
-
-                        //// 调整跳转参数
-                        //if (lastStartX != -1 && lastCostTime != -1) {
-                        //    resizedDistancePressTimeRatio = lastCostTime / Math.abs(firstPointX - lastStartX);
-                        //}
 
                         System.out.println("firstPointX = " + firstPointX + ", secondPointX = " + secondPointX
                             + ", distance = " + distance + ", ratio = " + resizedDistancePressTimeRatio);
 
                         // 跳转
                         double time = distance * resizedDistancePressTimeRatio;
-                        //lastStartX = firstPointX;
-                        //lastCostTime = time;
                         AdbUtil.longPress(time);
-                        AdbUtil.printScreen();
-                        // number
+
+                        // 等待
                         try {
                             Thread.sleep(screenshotInterval);
                         } catch (InterruptedException e1) {

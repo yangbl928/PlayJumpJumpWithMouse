@@ -8,17 +8,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * 找小人的底盘中心点
+ * 找跳转的中心点(小人中心店和下一个模块的中心店)
  *
  * @author yangbolin
  */
-public class CenterFinder {
+public class PointFinder {
 
-    public static int findStartCenter(BufferedImage bufferedImage) {
+    public static int findJumpStartPoint(BufferedImage bufferedImage) {
         // 屏幕最大宽度
         int width = bufferedImage.getWidth();
         // 屏幕最大高度
-        int height = bufferedImage.getHeight();
+        int hight = bufferedImage.getHeight();
 
         // w坐标和
         int peopleSumW = 0;
@@ -26,7 +26,9 @@ public class CenterFinder {
         int peopleCountW = 0;
 
         // rgb颜色(每个像素)
-        for (int h = 0; h < height; h++) {
+        int beginHight = hight / 3;
+        int endHight = hight - hight / 3;
+        for (int h = beginHight; h < endHight; h++) {
             for (int w = 0; w < width; w++) {
                 int pixel = bufferedImage.getRGB(w, h);
 
@@ -51,9 +53,11 @@ public class CenterFinder {
         return x;
     }
 
-    public static int findEndCenter(BufferedImage bufferedImage, int peopleX) {
+    public static int findJumpEndPoint(BufferedImage bufferedImage, int peopleX) {
         int hight = bufferedImage.getHeight();
         int width = bufferedImage.getWidth();
+        int beginHight = hight / 3;
+        int endHight = hight - hight / 3;
         int centorX = width / 2;
 
         int boardSumX = 0;
@@ -71,12 +75,12 @@ public class CenterFinder {
 
         // 查找下一个模块的最上面那个点
         int boardX = 0;
-        int backgroundPixel = bufferedImage.getRGB(0, 630);
+        int backgroundPixel = bufferedImage.getRGB(0, beginHight);
         Color backgroundColor = new Color(backgroundPixel);
         int backgroundRed = backgroundColor.getRed();
         int backgroundGreen = backgroundColor.getGreen();
         int backgroundBlue = backgroundColor.getBlue();
-        for (int h = 600; h < hight; h++) {
+        for (int h = beginHight; h < endHight; h++) {
             for (int w = boardStartX; w < boardEndX; w++) {
                 int pixel = bufferedImage.getRGB(w, h);
                 Color color = new Color(pixel);
@@ -102,10 +106,10 @@ public class CenterFinder {
 
     public static void main(String[] args) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File(Constants.SCREENSHOT_LOCATION));
-        int startX = CenterFinder.findStartCenter(bufferedImage);
+        int startX = PointFinder.findJumpStartPoint(bufferedImage);
         System.out.println(startX);
 
-        int endX = findEndCenter(bufferedImage, startX);
+        int endX = findJumpEndPoint(bufferedImage, startX);
         System.out.println(endX);
     }
 
