@@ -15,10 +15,6 @@ import javax.imageio.ImageIO;
  */
 public class AdbUtil {
 
-    private static String adbPath = Constants.ADB_PATH;
-
-    private static String screenshotLocation = Constants.SCREENSHOT_LOCATION;
-
     /**
      * 调用adb长按屏幕
      *
@@ -27,7 +23,7 @@ public class AdbUtil {
     public static void longPress(double timeMilli) {
         try {
             Process process = Runtime.getRuntime()
-                .exec(adbPath + " shell input touchscreen swipe 0 0 0 0 " + (int)timeMilli);
+                .exec(Constants.ADB_PATH + " shell input touchscreen swipe 0 0 0 0 " + (int)timeMilli);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String s;
             while ((s = bufferedReader.readLine()) != null) {
@@ -46,9 +42,10 @@ public class AdbUtil {
      */
     public static void printScreen() {
         try {
-            Process p1 = Runtime.getRuntime().exec(adbPath + " shell screencap -p /sdcard/screenshot.png");
+            Process p1 = Runtime.getRuntime().exec(Constants.ADB_PATH + " shell screencap -p /sdcard/screenshot.png");
             p1.waitFor();
-            Process p2 = Runtime.getRuntime().exec(adbPath + " pull /sdcard/screenshot.png " + screenshotLocation);
+            Process p2 = Runtime.getRuntime().exec(
+                Constants.ADB_PATH + " pull /sdcard/screenshot.png " + Constants.SCREENSHOT_LOCATION);
             p2.waitFor();
             checkScreenSuccess();
         } catch (IOException e) {
@@ -64,9 +61,9 @@ public class AdbUtil {
      * @throws IOException
      */
     private static void checkScreenSuccess() throws IOException {
-        BufferedImage image = ImageIO.read(new File(screenshotLocation));
+        BufferedImage image = ImageIO.read(new File(Constants.SCREENSHOT_LOCATION));
         if (image == null) {
-            throw new IOException("cann't read file \"" + screenshotLocation + "\" into image object");
+            throw new IOException("cann't read file \"" + Constants.SCREENSHOT_LOCATION + "\"");
         }
     }
 
